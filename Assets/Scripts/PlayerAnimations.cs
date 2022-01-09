@@ -10,7 +10,8 @@ public class PlayerAnimations : MonoBehaviour
     private Coroutine stickLerpCoroutine;
     private Coroutine aimLerpCoroutine;
     private Animator animator;
-    private Vector2 computedStickDirection, realStickDirection;
+    private Vector2 computedStickDirection;
+    private Vector2 realStickDirection;
 
     private void Awake()
     {
