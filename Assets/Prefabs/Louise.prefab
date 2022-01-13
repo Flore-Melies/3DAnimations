@@ -66,6 +66,24 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 5e6c1a409b75ddd4c86f1ce119e89e95, type: 3}
   m_PrefabInstance: {fileID: 8015053244788205693}
   m_PrefabAsset: {fileID: 0}
+--- !u!143 &2072377475
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7204169114900518188}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Height: 1.8
+  m_Radius: 0.25
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0
+  m_Center: {x: 0, y: 0.9, z: 0}
 --- !u!114 &79760307
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80,6 +98,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stickLerpTime: 0.2
   aimLerpTime: 0.2
+--- !u!114 &2072377474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7204169114900518188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c939013673de66499782c67dc966ead, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 5
+  pullGravityMultiplier: 0.1
+  jumpHeight: 1
+--- !u!114 &2072377480
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7204169114900518188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5215cf62665b0114494287acfa14b2e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  turnTime: 0.1
 --- !u!114 &3848821341379529769
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -175,55 +221,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: fe713868-fdf4-4727-a20c-bac37571208a
+    m_ActionId: bca6a739-a8a1-4df7-b3b9-ace27d06a9b7
     m_ActionName: Gameplay/Jump[/Keyboard/space]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Gameplay
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!143 &2072377475
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7204169114900518188}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Height: 1.8
-  m_Radius: 0.25
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0
-  m_Center: {x: 0, y: 0.9, z: 0}
---- !u!114 &2072377474
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7204169114900518188}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c939013673de66499782c67dc966ead, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 5
-  pullGravityMultiplier: 0.1
---- !u!114 &2072377480
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7204169114900518188}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5215cf62665b0114494287acfa14b2e8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  turnTime: 0.1

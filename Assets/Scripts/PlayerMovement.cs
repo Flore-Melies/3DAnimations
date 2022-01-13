@@ -3,14 +3,15 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public bool isJumping => !controller.isGrounded;
-
     public float speed;
     public float pullGravityMultiplier;
+    public float jumpHeight;
 
     private CharacterController controller;
     private Vector2 moveInputDirection;
     private bool wasGroundedLastFrame;
+    private bool isJumpPressed;
+    private Vector3 lastVelocity;
 
     private void Awake()
     {
@@ -22,12 +23,18 @@ public class PlayerMovement : MonoBehaviour
         moveInputDirection = obj.ReadValue<Vector2>();
     }
 
+    public void OnJump(InputAction.CallbackContext obj)
+    {
+        isJumpPressed = obj.ReadValueAsButton();
+    }
+
     // Update is called once per frame
     private void Update()
     {
         wasGroundedLastFrame = controller.isGrounded;
-        var moveDirection = GetLateralMovement() + GetGravityMovement();
+        var moveDirection = GetLateralMovement() + GetGravityMovement() + GetJumpMovement();
         controller.Move(moveDirection * Time.deltaTime);
+        lastVelocity = controller.velocity;
     }
 
     private Vector3 GetLateralMovement()
@@ -42,10 +49,25 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector3 GetGravityMovement()
     {
+        float yMovement;
         if (controller.isGrounded)
-            return Physics.gravity * pullGravityMultiplier;
-        if (wasGroundedLastFrame && controller.velocity.y < 0)
+            yMovement = Physics.gravity.y * pullGravityMultiplier;
+        else if (wasGroundedLastFrame && controller.velocity.y < 0)
+            yMovement = 0;
+        else
+            yMovement = lastVelocity.y + Physics.gravity.y * Time.deltaTime;
+        return new Vector3(0, yMovement, 0);
+    }
+
+    private Vector3 GetJumpMovement()
+    {
+        if (!isJumpPressed || !controller.isGrounded)
             return Vector3.zero;
-        return controller.velocity + Physics.gravity * Time.deltaTime;
+        return new Vector3
+        {
+            x = 0,
+            y = jumpHeight * -1 * Physics.gravity.y,
+            z = 0
+        };
     }
 }
