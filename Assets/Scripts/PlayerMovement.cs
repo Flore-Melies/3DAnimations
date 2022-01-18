@@ -9,9 +9,9 @@ public class PlayerMovement : MonoBehaviour
 
     private CharacterController controller;
     private Vector2 moveInputDirection;
-    private bool wasGroundedLastFrame;
     private bool isJumpPressed;
     private Vector3 lastVelocity;
+    private bool wasGroundedLastFrame;
 
     private void Awake()
     {
@@ -31,8 +31,8 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        wasGroundedLastFrame = controller.isGrounded;
         var moveDirection = GetLateralMovement() + GetGravityMovement() + GetJumpMovement();
+        wasGroundedLastFrame = controller.isGrounded;
         controller.Move(moveDirection * Time.deltaTime);
         lastVelocity = controller.velocity;
     }
@@ -50,10 +50,17 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 GetGravityMovement()
     {
         float yMovement;
-        if (controller.isGrounded)
+        var isGrounded = controller.isGrounded;
+        var startJumping = isJumpPressed && isGrounded;
+        var startFalling = wasGroundedLastFrame && !isGrounded;
+        Debug.Log(startFalling);
+        if (controller.isGrounded && !isJumpPressed)
             yMovement = Physics.gravity.y * pullGravityMultiplier;
-        else if (wasGroundedLastFrame && controller.velocity.y < 0)
+        else if (startJumping)
             yMovement = 0;
+
+        else if (startFalling)
+            yMovement = Physics.gravity.y * Time.deltaTime;
         else
             yMovement = lastVelocity.y + Physics.gravity.y * Time.deltaTime;
         return new Vector3(0, yMovement, 0);
@@ -66,8 +73,12 @@ public class PlayerMovement : MonoBehaviour
         return new Vector3
         {
             x = 0,
-            y = jumpHeight * -1 * Physics.gravity.y,
+            y = Mathf.Sqrt(jumpHeight * -2 * Physics.gravity.y),
             z = 0
         };
+    }
+
+    private void LateUpdate()
+    {
     }
 }
