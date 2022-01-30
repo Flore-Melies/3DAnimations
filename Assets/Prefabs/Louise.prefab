@@ -115,7 +115,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
-  pullGravityMultiplier: 0.1
+  gravityScale: 1.5
+  pullGravityMultiplier: 1
   jumpHeight: 1
 --- !u!114 &2072377480
 MonoBehaviour:

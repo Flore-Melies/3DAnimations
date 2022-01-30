@@ -4,9 +4,11 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     public float speed;
+    public float gravityScale;
     public float pullGravityMultiplier;
     public float jumpHeight;
 
+    private float gravity => Physics.gravity.y * gravityScale;
     private CharacterController controller;
     private Vector2 moveInputDirection;
     private bool isJumpPressed;
@@ -27,7 +29,6 @@ public class PlayerMovement : MonoBehaviour
         isJumpPressed = obj.ReadValueAsButton();
     }
 
-    // Update is called once per frame
     private void Update()
     {
         var moveDirection = GetLateralMovement() + GetGravityMovement() + GetJumpMovement();
@@ -50,12 +51,12 @@ public class PlayerMovement : MonoBehaviour
         float yMovement;
         var isGrounded = controller.isGrounded;
         var startJumping = isJumpPressed && isGrounded;
-        if (controller.isGrounded && !isJumpPressed)
-            yMovement = Physics.gravity.y * pullGravityMultiplier;
-        else if (startJumping)
+        if (startJumping)
             yMovement = 0;
+        else if (isGrounded)
+            yMovement = gravity * pullGravityMultiplier;
         else
-            yMovement = lastVelocity.y + Physics.gravity.y * Time.deltaTime;
+            yMovement = lastVelocity.y + gravity * Time.deltaTime;
         return new Vector3(0, yMovement, 0);
     }
 
@@ -66,7 +67,7 @@ public class PlayerMovement : MonoBehaviour
         return new Vector3
         {
             x = 0,
-            y = Mathf.Sqrt(jumpHeight * -2 * Physics.gravity.y),
+            y = Mathf.Sqrt(jumpHeight * -2 * gravity),
             z = 0
         };
     }
