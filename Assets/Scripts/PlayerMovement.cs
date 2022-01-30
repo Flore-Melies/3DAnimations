@@ -8,11 +8,11 @@ public class PlayerMovement : MonoBehaviour
     public float pullGravityMultiplier;
     public float jumpHeight;
 
-    private float gravity => Physics.gravity.y * gravityScale;
+    private float gravityY => Physics.gravity.y * gravityScale;
     private CharacterController controller;
     private Vector2 moveInputDirection;
     private bool isJumpPressed;
-    private Vector3 lastVelocity;
+    private float lastGravityVelocity;
 
     private void Awake()
     {
@@ -33,7 +33,7 @@ public class PlayerMovement : MonoBehaviour
     {
         var moveDirection = GetLateralMovement() + GetGravityMovement() + GetJumpMovement();
         controller.Move(moveDirection * Time.deltaTime);
-        lastVelocity = controller.velocity;
+        lastGravityVelocity = controller.velocity.y;
     }
 
     private Vector3 GetLateralMovement()
@@ -54,9 +54,9 @@ public class PlayerMovement : MonoBehaviour
         if (startJumping)
             yMovement = 0;
         else if (isGrounded)
-            yMovement = gravity * pullGravityMultiplier;
+            yMovement = gravityY * pullGravityMultiplier;
         else
-            yMovement = lastVelocity.y + gravity * Time.deltaTime;
+            yMovement = lastGravityVelocity + gravityY * Time.deltaTime;
         return new Vector3(0, yMovement, 0);
     }
 
@@ -67,7 +67,7 @@ public class PlayerMovement : MonoBehaviour
         return new Vector3
         {
             x = 0,
-            y = Mathf.Sqrt(jumpHeight * -2 * gravity),
+            y = Mathf.Sqrt(jumpHeight * -2 * gravityY),
             z = 0
         };
     }
