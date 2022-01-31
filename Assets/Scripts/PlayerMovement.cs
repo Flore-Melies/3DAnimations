@@ -9,6 +9,8 @@ public class PlayerMovement : MonoBehaviour
     public float jumpHeight;
 
     private float gravityY => Physics.gravity.y * gravityScale;
+    private bool startJumping => isJumpPressed && controller.isGrounded;
+
     private CharacterController controller;
     private Vector2 moveInputDirection;
     private bool isJumpPressed;
@@ -40,20 +42,16 @@ public class PlayerMovement : MonoBehaviour
     {
         if (moveInputDirection.sqrMagnitude == 0)
             return Vector3.zero;
-        // En multipliant un quaternion par une direction, on peut orienter un axe dans la direction voulue
-        // Ici on modifie Vector3.forward (soit un vector3(0,0,1)) pour l’orienter selon la rotation de l’avatar
-        var directionToMove = transform.rotation * Vector3.forward;
+        var directionToMove = new Vector3(moveInputDirection.x, 0, moveInputDirection.y);
         return directionToMove * (speed * moveInputDirection.magnitude);
     }
 
     private Vector3 GetGravityMovement()
     {
         float yMovement;
-        var isGrounded = controller.isGrounded;
-        var startJumping = isJumpPressed && isGrounded;
         if (startJumping)
             yMovement = 0;
-        else if (isGrounded)
+        else if (controller.isGrounded)
             yMovement = gravityY * pullGravityMultiplier;
         else
             yMovement = lastGravityVelocity + gravityY * Time.deltaTime;
@@ -62,13 +60,9 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector3 GetJumpMovement()
     {
-        if (!isJumpPressed || !controller.isGrounded)
+        if (!startJumping)
             return Vector3.zero;
-        return new Vector3
-        {
-            x = 0,
-            y = Mathf.Sqrt(jumpHeight * -2 * gravityY),
-            z = 0
-        };
+        var yMovement = Mathf.Sqrt(jumpHeight * -2 * gravityY);
+        return new Vector3(0, yMovement, 0);
     }
 }
